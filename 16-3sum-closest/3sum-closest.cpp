@@ -15,7 +15,7 @@ public:
                 }
 
                 if (sum == target) {
-                    return sum; // can't get closer than exact match
+                    return sum; 
                 } else if (sum < target) {
                     left++;
                 } else {
