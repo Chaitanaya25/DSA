@@ -9,13 +9,10 @@ public:
         int left = min(minIndex, maxIndex);
         int right = max(minIndex, maxIndex);
 
-        // Remove both from the front
         int front = right + 1;
 
-        // Remove both from the back
         int back = n - left;
 
-        // Remove one from each side
         int frontBack = (left + 1) + (n - right);
 
         return min({front, back, frontBack});
