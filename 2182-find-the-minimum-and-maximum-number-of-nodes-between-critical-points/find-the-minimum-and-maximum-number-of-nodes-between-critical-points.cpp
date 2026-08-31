@@ -11,42 +11,38 @@
 class Solution {
 public:
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
-        ListNode* prev = head;
-        ListNode* cur = head->next;
+        vector<int> nums;
 
-        int idx = 1;
+        while(head){
+            nums.push_back(head->val);
+            head = head->next;
+        }
 
-        int firstCritical = -1;
-        int lastCritical = -1;
+        vector<int> criticalPoints;
+
+        int n = nums.size();
+
+        for(int i = 1; i < n - 1; i++){
+            if(nums[i] > nums[i - 1] && nums[i] > nums[i + 1]){
+                criticalPoints.push_back(i);
+            }
+            else if(nums[i] < nums[i - 1] && nums[i] < nums[i + 1]){
+                criticalPoints.push_back(i);
+            }
+        }
+
+        int m = criticalPoints.size();
+
+        if(m < 2) return {-1, -1};
+
         int minDist = INT_MAX;
 
-        while(cur->next){
-            ListNode* next = cur->next;
+        int maxDist = criticalPoints[m - 1] - criticalPoints[0];
 
-            bool isMax = cur->val > prev->val && cur->val > next->val;
-            bool isMin = cur->val < prev->val && cur->val < next->val;
-
-            if(isMax || isMin){
-                if(lastCritical == -1){
-                    firstCritical = idx;
-                }
-                else {
-                    minDist = min(minDist, idx - lastCritical);
-                }
-
-                lastCritical = idx;
-            }
-
-            prev = cur;
-            cur = next;
-            idx++;
+        for(int i = 1; i < m; i++){
+            minDist = min(minDist,
+                criticalPoints[i] - criticalPoints[i - 1]);
         }
-
-        if(firstCritical == -1 || firstCritical == lastCritical){
-            return {-1, -1};
-        }
-
-        int maxDist = lastCritical - firstCritical;
 
         return {minDist, maxDist};
     }
