@@ -1,22 +1,24 @@
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
-        int minLen = numeric_limits<int>::max();
-        int left = 0;
-        int curSum = 0;
+        int n = nums.size();
+        int low = 0;
+        int sum = 0;
+        int res = INT_MAX;
 
-        for (int right = 0; right < nums.size(); right++) {
-            curSum += nums[right];
+        for (int i = 0; i < n; i++) {
+            sum += nums[i];
 
-            while (curSum >= target) {
-                if (right - left + 1 < minLen) {
-                    minLen = right - left + 1;
-                }
-                curSum -= nums[left];
-                left++;
+            while (sum >= target) {
+                res = min(res, i - low + 1);
+                sum -= nums[low];
+                low++;
             }
         }
 
-        return minLen != numeric_limits<int>::max() ? minLen : 0;        
+        if (res == INT_MAX) {
+            return 0;
+            }
+        return res;
     }
 };
